@@ -10,23 +10,12 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"/>
 
-   <LinearLayout
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal">
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="Distance From Object: "
-           android:textSize="10pt"/>
-
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:id="@+id/distance"/>
-
-   </LinearLayout>
+  <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Capture"
+      android:id="@+id/button_capture"/>
 
 
 </LinearLayout>
