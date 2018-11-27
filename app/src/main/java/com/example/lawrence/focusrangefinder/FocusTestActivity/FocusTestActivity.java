@@ -5,10 +5,13 @@ package com.example.lawrence.focusrangefinder.FocusTestActivity;
  */
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 
 import com.example.lawrence.focusrangefinder.CameraPreview;
 import com.example.lawrence.focusrangefinder.R;
+
+import java.util.concurrent.TimeUnit;
 
 public class FocusTestActivity extends AppCompatActivity {
 
@@ -28,29 +33,57 @@ public class FocusTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_main);
+        setContentView(R.layout.focus_main);
 
-        if(!checkCameraHardware(this)) {
-            System.out.println("no camera");
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_CONTACTS)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        1);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
         }
 
-        camera1 = getCameraInstance(0);
-        camera2 = getCameraInstance(1);
+        camera1 = getCameraInstance(-1);
 
 
         mPreview = new CameraPreview(this, camera1);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_previews);
         preview.addView(mPreview);
-        distance = (TextView) findViewById(R.id.distance);
-        float[] distanceEstimation = new float[3];
-        camera1.getParameters().getFocusDistances(distanceEstimation);
+        distance = (TextView) findViewById(R.id.distances);
 
-        if(distanceEstimation[1] != Float.POSITIVE_INFINITY && distanceEstimation[1] != Float.NEGATIVE_INFINITY) {
-            distance.setText((int) (distanceEstimation[1]));
-        }
-        else {
-            distance.setText("Error");
-        }
+
+            float[] distanceEstimation = new float[3];
+            camera1.getParameters().getFocusDistances(distanceEstimation);
+
+            if (distanceEstimation[1] != Float.POSITIVE_INFINITY && distanceEstimation[1] != Float.NEGATIVE_INFINITY) {
+                distance.setText((int) (distanceEstimation[1]));
+            } else {
+                distance.setText("Error");
+            }
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            }
+            catch (Exception e) {
+
+            }
+
 
     }
 
@@ -79,7 +112,12 @@ public class FocusTestActivity extends AppCompatActivity {
     public static Camera getCameraInstance (int num) {
         Camera c = null;
         try {
-            c = Camera.open(num);
+            if(num == -1) {
+                c = Camera.open();
+            }
+            else {
+                c = Camera.open(num);
+            }
         }
         catch (Exception e) {
             System.exit(0);

@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FocusRangeFinder.iml" filepath="$PROJECT_DIR$/FocusRangeFinder.iml" />
+      <module fileurl="file://C:\Users\Anonymous\Documents\Projects\Stereo-Vision-Android\FocusRangeFinder.iml" filepath="C:\Users\Anonymous\Documents\Projects\Stereo-Vision-Android\FocusRangeFinder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Stereo-Vision-Android.iml" filepath="$PROJECT_DIR$/.idea/Stereo-Vision-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Anonymous\Documents\Projects\Stereo-Vision-Android\app\app.iml" filepath="C:\Users\Anonymous\Documents\Projects\Stereo-Vision-Android\app\app.iml" />
     </modules>
   </component>
 </project>
